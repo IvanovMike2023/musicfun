@@ -1,1 +1,0 @@
-export { LiveWaveIcon } from './LiveWaveIcon'
