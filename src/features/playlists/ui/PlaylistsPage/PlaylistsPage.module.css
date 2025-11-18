@@ -1,0 +1,23 @@
+.title{
+    display: flex;
+    justify-content: center;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
+    align-items: flex-start;
+}
+.item{
+    display: flex;
+    width: 15%;
+    height: 10%;
+    margin: 20px;
+    flex-flow: column;
+    justify-content: center;
+    outline: darkgray  2px solid;
+    padding: 10px;
+;
+
+}
