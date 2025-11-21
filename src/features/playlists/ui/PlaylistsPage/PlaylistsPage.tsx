@@ -21,7 +21,6 @@ export const PlaylistsPage = () => {
                             </div>)
                     })
                 }
-
             </div>
         </div>
     )
