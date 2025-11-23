@@ -32,7 +32,6 @@ export type PlaylistAttributes = {
     user: User
     currentUserReaction: CurrentUserReaction
 }
-
 export type FetchPlaylistsArgs = {
     pageNumber?: number
     pageSize?: number
