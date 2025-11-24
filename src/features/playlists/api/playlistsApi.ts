@@ -22,8 +22,14 @@ export const playlistsApi = createApi({
                 body,
             }),
         }),
+        deletePlaylists: builder.mutation<any, any>({
+            query: (id) => ({
+                url: `playlists/${id}`,
+                method: 'DELETE'
+            }),
+        }),
     }),
 
 })
 
-export const {useGetPlaylistsQuery,useAddPlaylistsMutation} = playlistsApi
+export const {useGetPlaylistsQuery,useAddPlaylistsMutation,useDeletePlaylistsMutation} = playlistsApi
