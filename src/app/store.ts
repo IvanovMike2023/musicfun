@@ -3,14 +3,15 @@
 import {setupListeners} from '@reduxjs/toolkit/query'
 import {playlistsApi} from "@/features/playlists/api/playlistsApi";
 import {configureStore} from "@reduxjs/toolkit";
+import {baseApi} from "@/app/api/baseApi";
 
 export const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
-        [playlistsApi.reducerPath]: playlistsApi.reducer,
+        [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(playlistsApi.middleware),
+        getDefaultMiddleware().concat(baseApi.middleware),
 })
 
 
