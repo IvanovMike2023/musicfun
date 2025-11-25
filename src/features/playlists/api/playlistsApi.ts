@@ -1,5 +1,10 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {FetchPlaylistsArgs, PlaylistsResponse} from "@/features/playlists/api/playlistsApi.types";
+import {
+    CreatePlaylistArgs,
+    FetchPlaylistsArgs,
+    PlaylistData,
+    PlaylistsResponse, UpdatePlaylistArgs
+} from "@/features/playlists/api/playlistsApi.types";
 
 export const playlistsApi = createApi({
     reducerPath: 'playlistsApi',
@@ -15,21 +20,17 @@ export const playlistsApi = createApi({
         getPlaylists: builder.query<PlaylistsResponse, FetchPlaylistsArgs>({
             query: () =>  `playlists`,
         }),
-        addPlaylists: builder.mutation<any, any>({
-            query: (body) => ({
-                url: 'playlists',
-                method: 'POST',
-                body,
-            }),
+        addPlaylists: builder.mutation<{data: PlaylistData},CreatePlaylistArgs>({
+            query: (body) => ({url: 'playlists',method: 'POST',body }),
         }),
-        deletePlaylists: builder.mutation<any, any>({
-            query: (id) => ({
-                url: `playlists/${id}`,
-                method: 'DELETE'
-            }),
+        deletePlaylists: builder.mutation<void, string>({
+            query: (id) => ({url: `playlists/${id}`,method: 'delete'}),
+        }),
+        updatePlaylists: builder.mutation<void, {playlistId:string,body:UpdatePlaylistArgs}>({
+            query: ({playlistId,body}) => ({url: `playlists/${playlistId}`,method: 'put',body}),
         }),
     }),
 
 })
 
-export const {useGetPlaylistsQuery,useAddPlaylistsMutation,useDeletePlaylistsMutation} = playlistsApi
+export const {useGetPlaylistsQuery,useAddPlaylistsMutation,useDeletePlaylistsMutation,useUpdatePlaylistsMutation} = playlistsApi
