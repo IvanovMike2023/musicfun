@@ -23,15 +23,14 @@ export const PlaylistsPage = () => {
         }
     }
     const EditUpdatePlaylistHandler = (playlist: PlaylistData | null) => {
-        if (playlist.id) {
+
+        if (playlist) {
             setplaylistId(playlist.id)
             //reset({title:})
         } else {
             setplaylistId(null)
         }
     }
-
-
     return (
         <div className={s.container}>
             <h1>PlaylistsPage</h1>
@@ -43,8 +42,10 @@ export const PlaylistsPage = () => {
                         return (
                             <div key={playlist.id} className={s.item}>
                                 {isEditPlayList ?
-                                    <PlaylistEditForm playlistId={playlistId} EditUpdatePlaylist={EditUpdatePlaylistHandler}
-                                                      handleSubmit={handleSubmit} setplaylistId={setplaylistId} register={register}/>
+                                    <PlaylistEditForm playlistId={playlistId}
+                                                      EditUpdatePlaylist={EditUpdatePlaylistHandler}
+                                                      handleSubmit={handleSubmit} setplaylistId={setplaylistId}
+                                                      register={register}/>
                                     :
                                     <PlaylistItem playlist={playlist} deletePlayList={deletePlayListHandler}
                                                   EditUpdatePlaylist={EditUpdatePlaylistHandler}/>
