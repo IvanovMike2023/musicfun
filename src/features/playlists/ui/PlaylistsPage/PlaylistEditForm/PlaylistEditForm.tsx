@@ -5,8 +5,8 @@ import {useUpdatePlaylistsMutation} from "@/features/playlists/api/playlistsApi"
 type Props={
     playlistId:string,
     setplaylistId:(playlistId:null)=>void,
-    register: UseFormRegister<UpdatePlaylistArgs>,
-    handleSubmit: UseFormHandleSubmit<UpdatePlaylistArgs>,
+    register: UseFormRegister<CreatePlaylistArgs>,
+    handleSubmit: UseFormHandleSubmit<CreatePlaylistArgs, CreatePlaylistArgs>,// UseFormHandleSubmit<UpdatePlaylistArgs>,
     EditUpdatePlaylist:(playlistId:null )=>void
 }
 export const PlaylistEditForm=({playlistId,setplaylistId,handleSubmit,register,EditUpdatePlaylist}:Props)=>{

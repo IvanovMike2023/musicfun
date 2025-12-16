@@ -14,9 +14,10 @@ import {PlaylistEditForm} from "@/features/playlists/ui/PlaylistsPage/PlaylistEd
 
 export const PlaylistsPage = () => {
     const {data} = useGetPlaylistsQuery()
+    console.log(data)
     const [playlistId, setplaylistId] = useState<string | null>(null)
     const [deletePlayList] = useDeletePlaylistsMutation()
-    const {register, handleSubmit, reset} = useForm<CreatePlaylistArgs>()
+    const {register, handleSubmit} = useForm<CreatePlaylistArgs>()
     const deletePlayListHandler = (playlistId: string) => {
         if (confirm('Are you sure you want to delete the playlist?')) {
             deletePlayList(playlistId)
