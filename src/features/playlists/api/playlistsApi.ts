@@ -8,7 +8,7 @@ import {baseApi} from "@/app/api/baseApi";
 
 export const playlistsApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
-        getPlaylists: build.query<PlaylistsResponse,FetchPlaylistsArgs>({
+        getPlaylists: build.query<PlaylistsResponse,void>({
             query: () => `playlists`,
             providesTags: ['Playlist']
         }),
