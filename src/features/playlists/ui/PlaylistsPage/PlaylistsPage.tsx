@@ -27,7 +27,6 @@ export const PlaylistsPage = () => {
 
         if (playlist) {
             setplaylistId(playlist.id)
-            //reset({title:})
         } else {
             setplaylistId(null)
         }
