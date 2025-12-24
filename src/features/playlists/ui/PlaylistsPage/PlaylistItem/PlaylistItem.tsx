@@ -2,15 +2,16 @@ import {PlaylistData} from "@/features/playlists/api/playlistsApi.types";
 import defaultimages from "@/img/images.png"
 import s from "./PlaylistItem.module.css"
 import {ChangeEvent, ChangeEventHandler} from "react";
-import {useUpdatePhotoPlayListMutation} from "@/features/playlists/api/playlistsApi";
+import {useDeletePlayListCoverMutation, useUpdatePhotoPlayListMutation} from "@/features/playlists/api/playlistsApi";
 
 type Props = {
     playlist: PlaylistData,
     deletePlayList: (playlistId: string) => void
-    EditUpdatePlaylist: (playlist: PlaylistData) => void
+    editUpdatePlaylist: (playlist: PlaylistData) => void
 }
-export const PlaylistItem = ({playlist, deletePlayList, EditUpdatePlaylist}: Props) => {
-    const [UpdatePhotoPlayList]=useUpdatePhotoPlayListMutation()
+export const PlaylistItem = ({playlist, deletePlayList, editUpdatePlaylist}: Props) => {
+    const [UpdateCoverPlayList]=useUpdatePhotoPlayListMutation()
+    const [deletePlayListCover]=useDeletePlayListCoverMutation()
     const userImg = playlist.attributes.images.main?.find((f) => f.type === 'original')
     let src = userImg ? userImg.url : defaultimages
     const uploadCoverHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -24,21 +25,21 @@ export const PlaylistItem = ({playlist, deletePlayList, EditUpdatePlaylist}: Pro
             return
         }
         if (file.size > maxSize) {
-            alert('Only file < 1024*1024')
+            alert(`Only file size< ${Math.floor(maxSize/1024)} Kb`)
             return
         }
-        UpdatePhotoPlayList({playlistId:playlist.id, file})
-        console.log(file)
+        UpdateCoverPlayList({playlistId:playlist.id, file})
     }
     return (
         <div>
             <img className={s.cover} src={src} alt="Photo"/>
             <input type="file" accept="image/jpeg,image/png,image/gif" onChange={uploadCoverHandler}/>
+            {userImg && <button onClick={()=>deletePlayListCover({playlistId:playlist.id})}> delete Cover</button>}
             <div> {playlist.attributes.title}</div>
             <div>{playlist.attributes.description}</div>
             <div>{playlist.attributes.user.name}</div>
             <button onClick={() => deletePlayList(playlist.id)}>delete</button>
-            <button onClick={() => EditUpdatePlaylist(playlist)}>update
+            <button onClick={() => editUpdatePlaylist(playlist)}>update
             </button>
         </div>
     )

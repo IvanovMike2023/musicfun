@@ -48,7 +48,7 @@ export const PlaylistsPage = () => {
                                                       register={register}/>
                                     :
                                     <PlaylistItem playlist={playlist} deletePlayList={deletePlayListHandler}
-                                                  EditUpdatePlaylist={EditUpdatePlaylistHandler}/>
+                                                  editUpdatePlaylist={EditUpdatePlaylistHandler}/>
                                 }
                             </div>)
                     })
