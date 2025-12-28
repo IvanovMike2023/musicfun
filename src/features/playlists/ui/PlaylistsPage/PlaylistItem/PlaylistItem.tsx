@@ -4,9 +4,6 @@ import s from "./PlaylistItem.module.css"
 import {ChangeEvent, ChangeEventHandler} from "react";
 import {useDeletePlayListCoverMutation, useUpdatePhotoPlayListMutation} from "@/features/playlists/api/playlistsApi";
 
-
-
-
 type Props = {
     playlist: PlaylistData,
     deletePlayList: (playlistId: string) => void
