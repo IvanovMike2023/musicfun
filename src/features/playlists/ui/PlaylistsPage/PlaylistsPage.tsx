@@ -7,14 +7,15 @@ import s from './PlaylistsPage.module.css'
 import PlaylistForm from "@/features/playlists/ui/PlaylistsPage/PlaylistForm/PlaylistForm";
 import {CreatePlaylistArgs, PlaylistData, UpdatePlaylistArgs} from "@/features/playlists/api/playlistsApi.types";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {useState} from "react";
+import {ChangeEvent, ChangeEventHandler, useState} from "react";
 import {PlaylistItem} from "@/features/playlists/ui/PlaylistsPage/PlaylistItem/PlaylistItem";
 import {PlaylistEditForm} from "@/features/playlists/ui/PlaylistsPage/PlaylistEditForm/PlaylistEditForm";
 
 
 export const PlaylistsPage = () => {
-    const {data} = useGetPlaylistsQuery()
-    console.log(data)
+
+    const [search, setSearch] = useState('')
+    const {data, isLoading} = useGetPlaylistsQuery({search})
     const [playlistId, setplaylistId] = useState<string | null>(null)
     const [deletePlayList] = useDeletePlaylistsMutation()
     const {register, handleSubmit} = useForm<CreatePlaylistArgs>()
@@ -35,7 +36,10 @@ export const PlaylistsPage = () => {
         <div className={s.container}>
             <h1>PlaylistsPage</h1>
             <PlaylistForm/>
+            <input type="search" placeholder='input title for search'
+                   onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}/>
             <div className={s.items}>
+                {!data?.data.length && !isLoading && <h2>Not found this title</h2>}
                 {
                     data?.data.map((playlist) => {
                         const isEditPlayList = playlistId === playlist.id
