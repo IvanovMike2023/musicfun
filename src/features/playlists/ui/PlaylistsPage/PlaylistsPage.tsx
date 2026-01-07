@@ -10,12 +10,15 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {ChangeEvent, ChangeEventHandler, useState} from "react";
 import {PlaylistItem} from "@/features/playlists/ui/PlaylistsPage/PlaylistItem/PlaylistItem";
 import {PlaylistEditForm} from "@/features/playlists/ui/PlaylistsPage/PlaylistEditForm/PlaylistEditForm";
+import {useDebounceValue} from "@/common/hooks";
 
 
 export const PlaylistsPage = () => {
 
     const [search, setSearch] = useState('')
-    const {data, isLoading} = useGetPlaylistsQuery({search})
+    const debouncedValue = useDebounceValue(search)
+
+    const {data, isLoading} = useGetPlaylistsQuery({search:debouncedValue})
     const [playlistId, setplaylistId] = useState<string | null>(null)
     const [deletePlayList] = useDeletePlaylistsMutation()
     const {register, handleSubmit} = useForm<CreatePlaylistArgs>()
@@ -37,7 +40,7 @@ export const PlaylistsPage = () => {
             <h1>PlaylistsPage</h1>
             <PlaylistForm/>
             <input type="search" placeholder='input title for search'
-                   onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}/>
+                   onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch (e.target.value)}/>
             <div className={s.items}>
                 {!data?.data.length && !isLoading && <h2>Not found this title</h2>}
                 {
