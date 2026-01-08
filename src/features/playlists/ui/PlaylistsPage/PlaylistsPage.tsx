@@ -12,21 +12,23 @@ import {PlaylistItem} from "@/features/playlists/ui/PlaylistsPage/PlaylistItem/P
 import {PlaylistEditForm} from "@/features/playlists/ui/PlaylistsPage/PlaylistEditForm/PlaylistEditForm";
 import {useDebounceValue} from "@/common/hooks";
 import {logLevels} from "vite-plugin-checker/dist/checkers/vls/diagnostics";
+import {Pagination} from "@/common/Pagination/Pagination";
 
 
 export const PlaylistsPage = () => {
 
     const [search, setSearch] = useState('')
+    const [pageNumber, setpageNumber] = useState(1)
     const debouncedValue = useDebounceValue(search)
 
-    const {data, isLoading} = useGetPlaylistsQuery({search: debouncedValue})
+    const {data, isLoading} = useGetPlaylistsQuery({search: debouncedValue,pageNumber:pageNumber})
     const [playlistId, setplaylistId] = useState<string | null>(null)
     const [deletePlayList] = useDeletePlaylistsMutation()
     const {register, handleSubmit} = useForm<CreatePlaylistArgs>()
 
     const pagesCount = data?.meta.pagesCount
     let pageCountArray = []
-    if(pagesCount){
+    if (pagesCount) {
         for (let i = 1; i <= pagesCount; i++) {
             pageCountArray.push(i)
         }
@@ -45,20 +47,16 @@ export const PlaylistsPage = () => {
             setplaylistId(null)
         }
     }
+    const setPageNumber=(page:number)=>{
+        setpageNumber(page)
+    }
     return (
         <div className={s.container}>
             <h1>PlaylistsPage</h1>
             <PlaylistForm/>
             <input type="search" placeholder='input title for search'
                    onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}/>
-            <div>
-                {
-
-                    pageCountArray?.map((el)=>
-                        <span >{el}</span>
-                    )
-                }
-            </div>
+            <Pagination pageCountArray={pageCountArray} setPageNumber={setPageNumber} />
             <div className={s.items}>
                 {!data?.data.length && !isLoading && <h2>Not found this title</h2>}
                 {
