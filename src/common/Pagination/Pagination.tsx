@@ -1,28 +1,38 @@
 import s from './Pagination.module.css'
-import {playlistsApi, useGetPlaylistsQuery} from "@/features/playlists/api/playlistsApi";
-import {useDispatch} from "react-redux";
-import {useEffect} from "react";
+import {getPaginationPages} from "@/common/common/utils";
 
-type PaginationType = {
-    pageCountArray: any[]
-    setPageNumber: (page:number)=> void
+type Props = {
+    currentPage: number
+    setCurrentPage: (page: number) => void
+    pagesCount: number
 }
-export const Pagination = ({setPageNumber,pageCountArray}: PaginationType) => {
-    const dispatch = useDispatch()
-    const handlerpageCount = (page: number) => {
-        setPageNumber(page)
-        // const {data, isLoading} = useGetPlaylistsQuery({pageNumber:page})
-        //dispatch(useGetPlaylistsQuery({pageNumber:page}))
-        ///playlistsApi.getPlaylists({pageNumber:page})
-        //const {data, isLoading} = useGetPlaylistsQuery({pageNumber: page})
 
-    }
-    return (<div>
-            {
-                pageCountArray?.map((el) =>
-                    <span key={el} onClick={() => handlerpageCount(el)} className={s.item}>{el}</span>
-                )
-            }
+export const Pagination = ({ currentPage, setCurrentPage, pagesCount }: Props) => {
+    if (pagesCount <= 1) return null
+
+    const pages = getPaginationPages(currentPage, pagesCount)
+
+    return (
+        <div className={s.pagination}>
+            {pages.map((page, idx) =>
+                    page === '...' ? (
+                        <span className={s.ellipsis} key={`ellipsis-${idx}`}>
+            ...
+          </span>
+                    ) : (
+                        <button
+                            key={page}
+                            className={
+                                page === currentPage ? `${s.pageButton} ${s.pageButtonActive}` : s.pageButton
+                            }
+                            onClick={() => page !== currentPage && setCurrentPage(Number(page))}
+                            disabled={page === currentPage}
+                            type="button"
+                        >
+                            {page}
+                        </button>
+                    )
+            )}
         </div>
     )
 }
