@@ -11,14 +11,17 @@ import {Pagination} from "@/common/Pagination/Pagination";
 
 export const PlaylistsPage = () => {
     const [search, setSearch] = useState('')
-    const [pageNumber, setCurrentPage] = useState(1)
-    const debouncedValue = useDebounceValue(search)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [pageSize, setPageSize] = useState(2)
 
-    const {data, isLoading} = useGetPlaylistsQuery({search: debouncedValue,pageNumber:pageNumber})
+    const debouncedValue = useDebounceValue(search)
+    const {data, isLoading} = useGetPlaylistsQuery({
+        search: debouncedValue, pageNumber: currentPage,
+        pageSize,
+    })
     const [playlistId, setplaylistId] = useState<string | null>(null)
     const [deletePlayList] = useDeletePlaylistsMutation()
     const {register, handleSubmit} = useForm<CreatePlaylistArgs>()
-
 
 
     const deletePlayListHandler = (playlistId: string) => {
@@ -35,12 +38,21 @@ export const PlaylistsPage = () => {
         }
     }
 
+    const changePageSizeHandler = (size: number) => {
+        setPageSize(size)
+        setCurrentPage(1)
+    }
+    const changeFindTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setCurrentPage(1)
+        setSearch(e.target.value)
+    }
+
     return (
         <div className={s.container}>
             <h1>PlaylistsPage</h1>
             <PlaylistForm/>
             <input type="search" placeholder='input title for search'
-                   onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}/>
+                   onChange={(e) => changeFindTitleHandler(e)}/>
             <div className={s.items}>
                 {!data?.data.length && !isLoading && <h2>Not found this title</h2>}
                 {
@@ -61,7 +73,12 @@ export const PlaylistsPage = () => {
                     })
                 }
             </div>
-            <Pagination currentPage={pageNumber} pagesCount={data?.meta.pagesCount || 1} setCurrentPage={setCurrentPage} />
+            <Pagination currentPage={currentPage}
+                        pagesCount={data?.meta.pagesCount || 1}
+                        setCurrentPage={setCurrentPage}
+                        pageSize={pageSize}
+                        changePageSize={changePageSizeHandler}
+            />
         </div>
     )
 }
