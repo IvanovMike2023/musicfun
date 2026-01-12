@@ -38,7 +38,6 @@ export const PlaylistsPage = () => {
         }
     }
 
-
     const changePageSizeHandler = (size: number) => {
         setPageSize(size)
         setCurrentPage(1)
