@@ -1,0 +1,14 @@
+.container{
+    display: flex;
+    border: #888888 1px solid;
+    border-radius: 5px;
+    flex-flow: row nowrap;
+    justify-content:space-between;
+    margin: 20px;
+    padding: 10px;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

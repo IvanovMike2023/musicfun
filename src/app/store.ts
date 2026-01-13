@@ -1,7 +1,5 @@
-
 // Or from '@reduxjs/toolkit/query/react'
 import {setupListeners} from '@reduxjs/toolkit/query'
-import {playlistsApi} from "@/features/playlists/api/playlistsApi";
 import {configureStore} from "@reduxjs/toolkit";
 import {baseApi} from "@/app/api/baseApi";
 
