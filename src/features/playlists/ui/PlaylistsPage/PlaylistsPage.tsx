@@ -4,7 +4,7 @@ import PlaylistForm from "@/features/playlists/ui/PlaylistsPage/PlaylistForm/Pla
 import {ChangeEvent, useState} from "react";
 import {useDebounceValue} from "@/common/hooks";
 import {Pagination} from "@/common/Pagination/Pagination";
-import {Playlist} from "@/features/playlists/ui/PlaylistsPage/Playlist/Playlist";
+import {PlayList} from "@/features/playlists/ui/PlaylistsPage/Playlist/PlayList";
 
 export const PlaylistsPage = () => {
     const [search, setSearch] = useState('')
@@ -33,7 +33,7 @@ export const PlaylistsPage = () => {
             <PlaylistForm/>
             <input type="search" placeholder='input title for search'
                    onChange={(e) => changeFindTitleHandler(e)}/>
-            <Playlist playlists={data?.data || [] } isLoading={isLoading} />
+            <PlayList playlists={data?.data || [] } isLoading={isLoading} />
             <Pagination currentPage={currentPage}
                         pagesCount={data?.meta.pagesCount || 1}
                         setCurrentPage={setCurrentPage}

@@ -10,7 +10,7 @@ type Props = {
     deletePlayList: (playlistId: string) => void
     editUpdatePlaylist: (playlist: PlaylistData) => void
 }
-export const PlaylistItem = ({playlist, deletePlayList, editUpdatePlaylist}: Props) => {
+export const PlayListItem = ({playlist, deletePlayList, editUpdatePlaylist}: Props) => {
     const [UpdateCoverPlayList]=useUpdatePhotoPlayListMutation()
     const [deletePlayListCover]=useDeletePlayListCoverMutation()
     const userImg = playlist.attributes.images.main?.find((f) => f.type === 'original')

@@ -43,9 +43,7 @@ export const playlistsApi = baseApi.injectEndpoints({
             ,
             invalidatesTags: ['Playlist']
         }),
-
     }),
-
 })
 export const {
     useGetPlaylistsQuery,

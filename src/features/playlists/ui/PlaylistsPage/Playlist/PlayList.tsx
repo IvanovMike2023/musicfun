@@ -1,7 +1,7 @@
 import s from "@/features/playlists/ui/PlaylistsPage/PlaylistsPage.module.css";
 import {PlaylistEditForm} from "@/features/playlists/ui/PlaylistsPage/PlaylistEditForm/PlaylistEditForm";
-import {PlaylistItem} from "@/features/playlists/ui/PlaylistsPage/PlaylistItem/PlaylistItem";
-import {CreatePlaylistArgs, PlaylistData, PlaylistsResponse} from "@/features/playlists/api/playlistsApi.types";
+import {PlayListItem} from "@/features/playlists/ui/PlaylistsPage/PlayListItem/PlayListItem";
+import {CreatePlaylistArgs, PlaylistData} from "@/features/playlists/api/playlistsApi.types";
 import {useState} from "react";
 import {useDeletePlaylistsMutation} from "@/features/playlists/api/playlistsApi";
 import {useForm} from "react-hook-form";
@@ -11,7 +11,7 @@ type PlaylistType = {
     isLoading: boolean
 
 }
-export const Playlist = ({playlists, isLoading}: PlaylistType) => {
+export const PlayList = ({playlists, isLoading}: PlaylistType) => {
     const [playlistId, setplaylistId] = useState<string | null>(null)
     const [deletePlayList] = useDeletePlaylistsMutation()
     const {register, handleSubmit} = useForm<CreatePlaylistArgs>()
@@ -43,7 +43,7 @@ export const Playlist = ({playlists, isLoading}: PlaylistType) => {
                                                   handleSubmit={handleSubmit} setplaylistId={setplaylistId}
                                                   register={register}/>
                                 :
-                                <PlaylistItem playlist={playlist} deletePlayList={deletePlayListHandler}
+                                <PlayListItem playlist={playlist} deletePlayList={deletePlayListHandler}
                                               editUpdatePlaylist={EditUpdatePlaylistHandler}/>
                             }
                         </div>)
