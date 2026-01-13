@@ -1,13 +1,10 @@
-import {useDeletePlaylistsMutation, useGetPlaylistsQuery} from "@/features/playlists/api/playlistsApi";
+import {useGetPlaylistsQuery} from "@/features/playlists/api/playlistsApi";
 import s from './PlaylistsPage.module.css'
 import PlaylistForm from "@/features/playlists/ui/PlaylistsPage/PlaylistForm/PlaylistForm";
-import {CreatePlaylistArgs, PlaylistData} from "@/features/playlists/api/playlistsApi.types";
-import {useForm} from "react-hook-form";
 import {ChangeEvent, useState} from "react";
-import {PlaylistItem} from "@/features/playlists/ui/PlaylistsPage/PlaylistItem/PlaylistItem";
-import {PlaylistEditForm} from "@/features/playlists/ui/PlaylistsPage/PlaylistEditForm/PlaylistEditForm";
 import {useDebounceValue} from "@/common/hooks";
 import {Pagination} from "@/common/Pagination/Pagination";
+import {Playlist} from "@/features/playlists/ui/PlaylistsPage/Playlist/Playlist";
 
 export const PlaylistsPage = () => {
     const [search, setSearch] = useState('')
@@ -17,26 +14,9 @@ export const PlaylistsPage = () => {
     const debouncedValue = useDebounceValue(search)
     const {data, isLoading} = useGetPlaylistsQuery({
         search: debouncedValue, pageNumber: currentPage,
-        pageSize,
+        pageSize
     })
-    const [playlistId, setplaylistId] = useState<string | null>(null)
-    const [deletePlayList] = useDeletePlaylistsMutation()
-    const {register, handleSubmit} = useForm<CreatePlaylistArgs>()
 
-
-    const deletePlayListHandler = (playlistId: string) => {
-        if (confirm('Are you sure you want to delete the playlist?')) {
-            deletePlayList(playlistId)
-        }
-    }
-    const EditUpdatePlaylistHandler = (playlist: PlaylistData | null) => {
-
-        if (playlist) {
-            setplaylistId(playlist.id)
-        } else {
-            setplaylistId(null)
-        }
-    }
 
     const changePageSizeHandler = (size: number) => {
         setPageSize(size)
@@ -53,26 +33,7 @@ export const PlaylistsPage = () => {
             <PlaylistForm/>
             <input type="search" placeholder='input title for search'
                    onChange={(e) => changeFindTitleHandler(e)}/>
-            <div className={s.items}>
-                {!data?.data.length && !isLoading && <h2>Not found this title</h2>}
-                {
-                    data?.data.map((playlist) => {
-                        const isEditPlayList = playlistId === playlist.id
-                        return (
-                            <div key={playlist.id} className={s.item}>
-                                {isEditPlayList ?
-                                    <PlaylistEditForm playlistId={playlistId}
-                                                      EditUpdatePlaylist={EditUpdatePlaylistHandler}
-                                                      handleSubmit={handleSubmit} setplaylistId={setplaylistId}
-                                                      register={register}/>
-                                    :
-                                    <PlaylistItem playlist={playlist} deletePlayList={deletePlayListHandler}
-                                                  editUpdatePlaylist={EditUpdatePlaylistHandler}/>
-                                }
-                            </div>)
-                    })
-                }
-            </div>
+            <Playlist playlists={data?.data || [] } isLoading={isLoading} />
             <Pagination currentPage={currentPage}
                         pagesCount={data?.meta.pagesCount || 1}
                         setCurrentPage={setCurrentPage}
