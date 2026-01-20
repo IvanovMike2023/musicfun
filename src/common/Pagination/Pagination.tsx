@@ -10,6 +10,7 @@ type Props = {
 }
 
 export const Pagination = ({currentPage, setCurrentPage, pagesCount,pageSize,changePageSize}: Props) => {
+    console.log(pagesCount)
     if (pagesCount <= 1) return null
     const pages = getPaginationPages(currentPage, pagesCount)
 

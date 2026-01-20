@@ -15,8 +15,8 @@ export const PlaylistsPage = () => {
     const {data, isLoading} = useGetPlaylistsQuery({
         search: debouncedValue, pageNumber: currentPage,
         pageSize
-    })
 
+    })
 
     const changePageSizeHandler = (size: number) => {
         setPageSize(size)
